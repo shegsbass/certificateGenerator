@@ -2,6 +2,7 @@ package dev.shegs.certificateGenerator.controllers;
 
 import com.lowagie.text.*;
 import dev.shegs.certificateGenerator.entity.User;
+import dev.shegs.certificateGenerator.service.PDFService;
 import dev.shegs.certificateGenerator.service.UserService;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,9 +36,9 @@ public class HomeController {
         User user = userService.findUserByEmail(email);
         boolean emailExists = userService.emailExist(email);
         if (emailExists) {
-            String fullName = user.getFullName();
+            String certRecipientName = user.getFullName();
             ServletOutputStream outputStream = response.getOutputStream();
-            pdfService.PDFGenerator(outputStream, fullName);
+            pdfService.PDFGenerator(outputStream, certRecipientName);
 
         } else {
             model.addAttribute("message", "Error: " + email + " does not exist in our database.");
